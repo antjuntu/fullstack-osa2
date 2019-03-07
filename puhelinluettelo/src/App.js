@@ -19,8 +19,16 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
+
+    const duplicateFound = persons.find(person => person.name.toLowerCase() === newName.toLowerCase().trim())
+
+    if (duplicateFound) {
+      alert(`${newName} on jo luettelossa!`)
+      return
+    }
+
     const personObject = {
-      name: newName
+      name: newName.trim()
     }
     setPersons(persons.concat(personObject))
     setNewName('')
