@@ -20,7 +20,7 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    const duplicateFound = persons.find(person => person.name.toLowerCase() === newName.toLowerCase().trim())
+    const duplicateFound = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
 
     if (duplicateFound) {
       alert(`${newName} on jo luettelossa!`)
@@ -28,7 +28,7 @@ const App = () => {
     }
 
     const personObject = {
-      name: newName.trim()
+      name: newName
     }
     setPersons(persons.concat(personObject))
     setNewName('')
