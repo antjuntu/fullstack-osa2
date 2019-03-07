@@ -27,15 +27,24 @@ const Content = ({ parts }) => {
   )
 }
 
-// const Total = (props) => {
-//   return <p>yhteensä {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises} tehtävää</p>
-// }
+const Total = ({ parts }) => {
+  const totalCourses = () => {
+    let tot = 0
+    for (let i = 0; i < parts.length; i++) {
+      tot += parts[i].exercises
+    }
+    return tot
+  }
+
+  return <p>yhteensä {totalCourses()} tehtävää</p>
+}
 
 const Course = ({ course }) => {
   return (
     <div>
       <Header text={course.name}/>
       <Content parts={course.parts}/>
+      <Total parts={course.parts} />
     </div>
   )
 }
