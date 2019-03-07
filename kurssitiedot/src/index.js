@@ -29,11 +29,9 @@ const Content = ({ parts }) => {
 
 const Total = ({ parts }) => {
   const totalCourses = () => {
-    let tot = 0
-    for (let i = 0; i < parts.length; i++) {
-      tot += parts[i].exercises
-    }
-    return tot
+    return parts.reduce((acc, part) => {
+      return acc + part.exercises
+    }, 0)
   }
 
   return <p>yhteensä {totalCourses()} tehtävää</p>
