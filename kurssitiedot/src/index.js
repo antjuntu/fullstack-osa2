@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const Header = ({ text }) => {
-  return <h1>{text}</h1>
+  return <h2>{text}</h2>
 }
 
 const Part = ({ part }) => {
@@ -11,7 +11,6 @@ const Part = ({ part }) => {
       {part.name} {part.exercises}
     </p>
   )
-  
 }
 
 const Content = ({ parts }) => {
@@ -48,30 +47,55 @@ const Course = ({ course }) => {
 }
 
 const App = () => {
-  const course = {
-    name: 'Half Stack -sovelluskehitys',
-    parts: [
-      {
-        name: 'Reactin perusteet',
-        exercises: 10,
-        id: 1
-      },
-      {
-        name: 'Tiedonvälitys propseilla',
-        exercises: 7,
-        id: 2
-      },
-      {
-        name: 'Komponenttien tila',
-        exercises: 14,
-        id: 3
-      }
-    ]
-  }
+  const courses = [
+    {
+      name: 'Half Stack -sovelluskehitys',
+      id: 1,
+      parts: [
+        {
+          name: 'Reactin perusteet',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Tiedonvälitys propseilla',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'Komponenttien tila',
+          exercises: 14,
+          id: 3
+        }
+      ]
+    },
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewaret',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
 
   return (
     <div>
-      <Course course={course} />
+      <h1>Opetusohjelma</h1>
+      {courses.map(course => 
+        <Course
+          key={course.id}
+          course={course}  
+        />
+      )}
     </div>
   )
 }
