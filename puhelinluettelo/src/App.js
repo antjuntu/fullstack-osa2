@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import Persons from './components/Persons'
+import Filter from './components/Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,12 +16,6 @@ const App = () => {
   const filteredPersons = persons.filter(
     person => person.name.toLowerCase().startsWith(filter.toLowerCase())
   )
-
-  const personRows = () => {
-    return filteredPersons.map(person =>
-      <div key={person.name}>{person.name} {person.number}</div>
-    )
-  }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -57,11 +53,7 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-      <form onSubmit={(event) => event.preventDefault()}>
-        <div>
-          rajaa näytettäviä <input value={filter} onChange={handleFilterChange} />
-        </div>
-      </form>
+      <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h3>Lisää uusi</h3>
       <form onSubmit={addPerson}>
         <div>
@@ -75,9 +67,7 @@ const App = () => {
         </div>
       </form>
       <h3>Numerot</h3>
-      <div>
-        {personRows()}
-      </div>
+      <Persons personsToShow={filteredPersons} />
     </div>
   )
 
