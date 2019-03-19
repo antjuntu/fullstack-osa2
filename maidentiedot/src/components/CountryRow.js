@@ -1,6 +1,7 @@
 import React from 'react'
 
 const CountryRow = ({ country, showCountryDetails }) => {
+  
   return (
     <div>
       {country.name}
