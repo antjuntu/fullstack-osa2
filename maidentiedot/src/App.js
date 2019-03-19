@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+import CountryDetails from './components/CountryDetails'
+import CountryRow from './components/CountryRow'
+
 const url = 'https://restcountries.eu/rest/v2/all';
 
 const App = () => {
@@ -17,10 +20,6 @@ const App = () => {
       })
   }, [])
 
-  // countries.forEach(country => {
-  //   console.log(country)
-  // })
-
   const handleFilterChange = (event) => {
     //console.log(event.target.value)
     setFilter(event.target.value)
@@ -30,6 +29,14 @@ const App = () => {
   const filteredCountries = countries.filter(country => {
     return country.name.toLowerCase().includes(filter.toLowerCase())
   })
+
+  const showCountryDetails = (name) => {
+    return () => {
+      //const countryToShow = countries.find(country => country.name === name);
+      //console.log(countryToShow)
+      setFilter(name)
+    }
+  }
     
   const showCountries = () => {
     if (filteredCountries.length >= 10) {
@@ -40,35 +47,14 @@ const App = () => {
       return (
         <div>
         {filteredCountries.map(country =>
-          <div key={country.alpha3Code}>{country.name}</div>  
+          <CountryRow key={country.alpha3Code} country={country} showCountryDetails={showCountryDetails(country.name)} /> 
         )}
         </div>
       )
     } else if (filteredCountries.length === 1){
-      //console.log(filteredCountries[0])
-      const country = filteredCountries[0]
-      return (
-        <div>
-          <h2>{country.name}</h2>
-          <p>
-            capital {country.capital} <br />
-            population {country.population}
-          </p>
-          <h3>languages</h3>
-          <ul>
-            {country.languages.map(lan => 
-              <li key={lan.name}>{lan.name}</li>
-            )}
-          </ul>
-          <div>
-            <img src={country.flag} alt="flag" height="100" width="100" />
-          </div>
-        </div>
-      )
+      return <CountryDetails country={filteredCountries[0]} />
     } else{
-      return (
-        <div></div>
-      )
+      return null
     }
   }
 
