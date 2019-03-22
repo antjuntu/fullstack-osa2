@@ -37,10 +37,19 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    const duplicateFound = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
+    const duplicatePerson = persons.find(person => person.name === newName)
 
-    if (duplicateFound) {
-      alert(`${newName} on jo luettelossa!`)
+    if (duplicatePerson) {
+      if (window.confirm(`${duplicatePerson.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        const changedPerson = { ...duplicatePerson, number: newNumber }
+        personService
+          .update(changedPerson.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(person =>
+              person.id === returnedPerson.id ? returnedPerson : person
+            ))
+          })
+      }
       setNewName('')
       setNewNumber('')
       return
