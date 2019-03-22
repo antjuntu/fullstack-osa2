@@ -60,6 +60,20 @@ const App = () => {
       })
   }
 
+  const deletePerson = id => {
+    return () => {
+      //console.log(`Poistetaan henkilö jonka id on ${id}`)
+      const personToRemove = persons.find(person => person.id === id)
+      if (window.confirm(`Poistetaanko ${personToRemove.name}`))
+      personService
+        .deletePerson(id)
+        .then(() => {
+          //console.log('poistettu')
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
   return (
     <div>
       <h2>Puhelinluettelo</h2>
@@ -77,7 +91,7 @@ const App = () => {
         </div>
       </form>
       <h3>Numerot</h3>
-      <Persons personsToShow={filteredPersons} />
+      <Persons personsToShow={filteredPersons} deletePerson={deletePerson} />
     </div>
   )
 
