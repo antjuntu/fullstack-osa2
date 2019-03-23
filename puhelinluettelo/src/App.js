@@ -4,6 +4,7 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import Notification from './components/Notification'
 import personService from './services/persons'
+import ErrorMessage from './components/ErrorMessage';
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -11,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [message, setMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -52,10 +54,19 @@ const App = () => {
             )
             setTimeout(() => {
               setMessage(null)
-            }, 5000);
+            }, 5000)
             setPersons(persons.map(person =>
               person.id === returnedPerson.id ? returnedPerson : person
             ))
+          })
+          .catch(error => {
+            setErrorMessage(
+              `Valitettavasti henkilö ${duplicatePerson.name} on jo poistettu`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000)
+            setPersons(persons.filter(p => p.id !== duplicatePerson.id))
           })
       }
       setNewName('')
@@ -96,7 +107,7 @@ const App = () => {
           )
           setTimeout(() => {
             setMessage(null)
-          }, 5000);
+          }, 5000)
           setPersons(persons.filter(person => person.id !== id))
         })
     }
@@ -105,7 +116,10 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+
       <Notification message={message} />
+      <ErrorMessage message={errorMessage} />
+
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h3>Lisää uusi</h3>
       <form onSubmit={addPerson}>
