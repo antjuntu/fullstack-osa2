@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import Persons from './components/Persons'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -45,6 +47,12 @@ const App = () => {
         personService
           .update(changedPerson.id, changedPerson)
           .then(returnedPerson => {
+            setMessage(
+              `Vaihdettiin henkilön ${returnedPerson.name} numero`
+            )
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000);
             setPersons(persons.map(person =>
               person.id === returnedPerson.id ? returnedPerson : person
             ))
@@ -63,6 +71,12 @@ const App = () => {
     personService
       .create(personObject)
       .then(createdPerson => {
+        setMessage(
+          `Lisättiin henkilö ${createdPerson.name}`
+        )
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000);
         setPersons(persons.concat(createdPerson))
         setNewName('')
         setNewNumber('')
@@ -77,7 +91,12 @@ const App = () => {
       personService
         .deletePerson(id)
         .then(() => {
-          //console.log('poistettu')
+          setMessage(
+            `Poistettiin henkilö ${personToRemove.name}`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000);
           setPersons(persons.filter(person => person.id !== id))
         })
     }
@@ -86,6 +105,7 @@ const App = () => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+      <Notification message={message} />
       <Filter filter={filter} handleFilterChange={handleFilterChange} />
       <h3>Lisää uusi</h3>
       <form onSubmit={addPerson}>
