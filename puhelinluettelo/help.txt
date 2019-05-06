@@ -1,0 +1,2 @@
+Open git bash
+>sh deploy.sh
